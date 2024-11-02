@@ -4,6 +4,7 @@ import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.ProdutoReposi
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
         return entityManager.createNativeQuery(query, Produto.class).getResultList();
     }
 
+    @Transactional
     @Override
     public void insert(Produto produto) {
         var query = """
@@ -38,6 +40,7 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
                 .executeUpdate();
     }
 
+    @Transactional
     @Override
     public void update(int id, Produto produto) {
         var query = """
@@ -50,18 +53,31 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
                 .setParameter("nome", produto.getNome())
                 .setParameter("quantidade", produto.getQuantidade())
                 .setParameter("preco", produto.getPreco())
-                .setParameter("id", produto.getId())
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+
+    @Transactional
+    @Override
+    public void delete(int id) {
+        var query = """
+                DELETE FROM produto WHERE id = :id;
+                """;
+
+        entityManager.createNativeQuery(query, Produto.class)
+                .setParameter("id", id)
                 .executeUpdate();
     }
 
     @Override
-    public void delete(int id, Produto produto) {
+    public Produto listarUm(int id) {
         var query = """
-                DELETE * FROM produto WHERE id = :id;
+                SELECT * FROM produto WHERE id = :id;
                 """;
 
-        entityManager.createNativeQuery(query, Produto.class)
-                .setParameter("id", produto.getId())
-                .executeUpdate();
+
+        return (Produto) entityManager.createNativeQuery(query,Produto.class)
+                .setParameter("id",id)
+                .getSingleResult();
     }
 }

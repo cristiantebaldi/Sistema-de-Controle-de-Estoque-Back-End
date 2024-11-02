@@ -16,20 +16,25 @@ public class ProdutoController {
     @GetMapping("/produto")
     public List<Produto> fetch(){
         return produtoUseCase.fetch();
-    }
+}
 
     @PostMapping("/produto")
-    public void insert(Produto produto){
+    public void insert(@RequestBody Produto produto){
         produtoUseCase.insert(produto);
     }
 
     @PutMapping("/produto/{id}")
-    public void update(int id, Produto produto){
+    public void update(@PathVariable int id, @RequestBody Produto produto){
         produtoUseCase.update(id, produto);
     }
 
     @DeleteMapping("/produto/{id}")
-    public void delete(int id, Produto produto){
-        produtoUseCase.delete(id, produto);
+    public void delete(@PathVariable int id){
+        produtoUseCase.delete(id);
+    }
+
+    @GetMapping("/produto/{id}")
+    public Produto listarUm(@PathVariable int id){
+        return produtoUseCase.listarUm(id);
     }
 }

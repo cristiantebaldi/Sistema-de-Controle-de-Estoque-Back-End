@@ -1,10 +1,12 @@
 package com.trabalhofinal.gerenciamentoEstoque.infra.repository.database;
 
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.VendaProdutoRepository;
+import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Venda;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.VendaProduto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,6 +17,7 @@ public class VendaProdutoRepositoryImpl implements VendaProdutoRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Transactional
     @Override
     public void insert(VendaProduto vendaProduto) {
         var query = """
@@ -29,18 +32,35 @@ public class VendaProdutoRepositoryImpl implements VendaProdutoRepository {
                 .executeUpdate();
     }
 
+    @Transactional
     @Override
-    public void delete(int id, VendaProduto vendaProduto) {
+    public void removerQuantidade(VendaProduto vendaProduto) {
+        var queryRemover = """
+                UPDATE produto
+                SET quantidade = (quantidade - :venda_produto.quantidade)
+                WHERE id = :venda_produto.id_produto
+                """;
+
+        entityManager.createNativeQuery(queryRemover, VendaProduto.class)
+                .setParameter("venda_produto.id_produto", vendaProduto.getId_produto())
+                .setParameter("venda_produto.quantidade", vendaProduto.getQuantidade())
+                .executeUpdate();
+    }
+
+    @Transactional
+    @Override
+    public void delete(int id) {
         var query = """
-                DELETE * FROM venda_produto
+                DELETE FROM venda_produto
                 WHERE id = :id;
                 """;
 
         entityManager.createNativeQuery(query, VendaProduto.class)
-                .setParameter("id", vendaProduto.getId())
+                .setParameter("id", id)
                 .executeUpdate();
     }
 
+    @Transactional
     @Override
     public void update(int id, VendaProduto vendaProduto) {
         var query = """
@@ -53,7 +73,31 @@ public class VendaProdutoRepositoryImpl implements VendaProdutoRepository {
                 .setParameter("id_venda", vendaProduto.getId_venda())
                 .setParameter("id_produto", vendaProduto.getId_produto())
                 .setParameter("quantidade", vendaProduto.getQuantidade())
+                .setParameter("id", id)
                 .executeUpdate();
+    }
+
+    @Transactional
+    @Override
+    public void removerQtdUpdate(VendaProduto vendaProduto) {
+        int quantidadeAntiga = (int) entityManager.createNativeQuery(
+                        "SELECT quantidade FROM venda_produto WHERE id = :id")
+                .setParameter("id", vendaProduto.getId())
+                .getSingleResult();
+
+        int diferenca = vendaProduto.getQuantidade() - quantidadeAntiga;
+
+        var query = """
+                UPDATE produto SET
+                quantidade = (quantidade - :diferenca)
+                WHERE id = :id_produto;
+                """;
+        entityManager.createNativeQuery(query, VendaProduto.class)
+                .setParameter("diferenca", diferenca)
+                .setParameter("id_produto",vendaProduto.getId_produto())
+                .executeUpdate();
+
+        System.out.println("Certo");
     }
 
     @Override
@@ -66,5 +110,16 @@ public class VendaProdutoRepositoryImpl implements VendaProdutoRepository {
         List<VendaProduto> listar =
                 entityManager.createNativeQuery(query, VendaProduto.class).getResultList();
         return listar;
+    }
+
+    @Override
+    public VendaProduto listarUm(int id) {
+        var query = """
+                SELECT * FROM venda_produto WHERE id = :id
+                """;
+
+        return (VendaProduto) entityManager.createNativeQuery(query,VendaProduto.class)
+                .setParameter("id",id)
+                .getSingleResult();
     }
 }

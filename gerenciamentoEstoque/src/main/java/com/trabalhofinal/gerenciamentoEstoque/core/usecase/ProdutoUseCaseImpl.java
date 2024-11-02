@@ -32,7 +32,12 @@ public class ProdutoUseCaseImpl implements ProdutoUseCase {
     }
 
     @Override
-    public void delete(int id, Produto produto) {
-        produtoRepository.delete(id, produto);
+    public void delete(int id) {
+        produtoRepository.delete(id);
+    }
+
+    @Override
+    public Produto listarUm(int id) {
+        return produtoRepository.listarUm(id);
     }
 }

@@ -19,17 +19,22 @@ public class VendaProdutoController {
     }
 
     @PostMapping("/venda_produto")
-    public void insert(VendaProduto vendaProduto){
+    public void insert(@RequestBody VendaProduto vendaProduto){
         vendaProdutoUseCase.insert(vendaProduto);
     }
 
     @PutMapping("/venda_produto/{id}")
-    public void update(int id, VendaProduto vendaProduto){
+    public void update(@PathVariable int id, @RequestBody VendaProduto vendaProduto){
         vendaProdutoUseCase.update(id, vendaProduto);
     }
 
     @DeleteMapping("/venda_produto/{id}")
-    public void delete(int id, VendaProduto vendaProduto){
-        vendaProdutoUseCase.delete(id, vendaProduto);
+    public void delete(@PathVariable int id){
+        vendaProdutoUseCase.delete(id);
+    }
+
+    @GetMapping("/venda_produto/{id}")
+    public VendaProduto listarUm(@PathVariable int id){
+        return vendaProdutoUseCase.listarUm(id);
     }
 }

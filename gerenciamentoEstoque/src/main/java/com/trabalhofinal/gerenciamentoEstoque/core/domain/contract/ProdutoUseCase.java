@@ -11,6 +11,8 @@ public interface ProdutoUseCase {
 
     public void update(int id, Produto produto);
 
-    public void delete(int id, Produto produto);
+    public void delete(int id);
+
+    public Produto listarUm(int id);
 
 }

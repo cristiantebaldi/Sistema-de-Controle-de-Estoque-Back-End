@@ -5,6 +5,7 @@ import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Venda;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class VendaRepositoryImpl implements VendaRepository {
         return entityManager.createNativeQuery(query, Venda.class).getResultList();
     }
 
+    @Transactional
     @Override
     public void insert(Venda venda) {
         var query = """
@@ -36,6 +38,7 @@ public class VendaRepositoryImpl implements VendaRepository {
                 .executeUpdate();
     }
 
+    @Transactional
     @Override
     public void update(int id, Venda venda) {
         var query = """
@@ -46,18 +49,29 @@ public class VendaRepositoryImpl implements VendaRepository {
 
         entityManager.createNativeQuery(query, Venda.class)
                 .setParameter("data_compra", venda.getData_compra())
-                .setParameter("id", venda.getId())
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+
+    @Transactional
+    @Override
+    public void delete(int id) {
+        var query = """
+                DELETE FROM venda WHERE id = :id;
+                """;
+
+        entityManager.createNativeQuery(query, Venda.class)
+                .setParameter("id", id)
                 .executeUpdate();
     }
 
     @Override
-    public void delete(int id, Venda venda) {
+    public Venda listarUm(int id) {
         var query = """
-                DELETE * FROM venda WHERE id = :id;
+                SELECT * FROM venda WHERE id = :id;
                 """;
-
-        entityManager.createNativeQuery(query, Venda.class)
-                .setParameter("id", venda.getId())
-                .executeUpdate();
+        return (Venda)entityManager.createNativeQuery(query, Venda.class)
+                .setParameter("id", id)
+                .getSingleResult();
     }
 }
