@@ -15,4 +15,6 @@ public interface VendaUseCase {
     public void delete(int id);
 
     public Venda listarUm(int id);
+
+    public List<Venda> relatorio();
 }

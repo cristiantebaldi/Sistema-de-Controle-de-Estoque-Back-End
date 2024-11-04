@@ -6,6 +6,7 @@ import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.VendaProdutoR
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.VendaProdutoUseCase;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.VendaProduto;
+import jakarta.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +23,21 @@ public class VendaProdutoUseCaseImpl implements VendaProdutoUseCase {
 
     @Override
     public void insert(VendaProduto vendaProduto) {
-        var produto = produtoRepository.listarUm(vendaProduto.getId_produto());
-        if (vendaProduto.getQuantidade() > 0 && vendaProduto.getQuantidade() <= produto.getQuantidade()) {
-            vendaProdutoRepository.insert(vendaProduto);
-            vendaProdutoRepository.removerQuantidade(vendaProduto);
-        } else {
-            System.out.println("Quantidade inválida");
+
+        if(produtoRepository.listarUm(vendaProduto.getId_produto()) != null){
+            var produto = produtoRepository.listarUm(vendaProduto.getId_produto());
+
+            if (vendaProduto.getQuantidade() > 0 && vendaProduto.getQuantidade() <= produto.getQuantidade()) {
+                vendaProdutoRepository.insert(vendaProduto);
+                vendaProdutoRepository.removerQuantidade(vendaProduto);
+            } else {
+                System.out.println("Quantidade inválida");
+            }
+        }else{
+            System.out.println("Produto ou venda inválido");
         }
+
+
     }
 
     @Override

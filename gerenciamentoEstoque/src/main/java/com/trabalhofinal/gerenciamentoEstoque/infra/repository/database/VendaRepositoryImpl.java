@@ -74,4 +74,9 @@ public class VendaRepositoryImpl implements VendaRepository {
                 .setParameter("id", id)
                 .getSingleResult();
     }
+
+    @Override
+    public List<Venda> relatorio() {
+        return null;
+    }
 }

@@ -36,4 +36,9 @@ public class VendaController {
     public Venda listarUm(@PathVariable int id){
         return vendaUseCase.listarUm(id);
     }
+
+    @GetMapping("/venda/relatorio")
+    public List<Venda> relatorio(){
+        return vendaUseCase.relatorio();
+    }
 }

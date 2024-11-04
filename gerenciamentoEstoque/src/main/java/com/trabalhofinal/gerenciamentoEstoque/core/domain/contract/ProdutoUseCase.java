@@ -15,4 +15,10 @@ public interface ProdutoUseCase {
 
     public Produto listarUm(int id);
 
+    public void atualizarQuantidade(int id, int novaQuantidade);
+
+    public void entrada(int id, int entrada);
+
+    public void saida(int id, int saida);
+
 }

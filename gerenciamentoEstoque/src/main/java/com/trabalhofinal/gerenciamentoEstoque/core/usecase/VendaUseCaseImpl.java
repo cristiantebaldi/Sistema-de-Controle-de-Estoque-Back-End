@@ -39,4 +39,9 @@ public class VendaUseCaseImpl implements VendaUseCase {
     public Venda listarUm(int id) {
         return vendaRepository.listarUm(id);
     }
+
+    @Override
+    public List<Venda> relatorio() {
+        return vendaRepository.relatorio();
+    }
 }

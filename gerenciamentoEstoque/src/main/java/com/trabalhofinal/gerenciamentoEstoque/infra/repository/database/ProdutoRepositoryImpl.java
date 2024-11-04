@@ -80,4 +80,57 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
                 .setParameter("id",id)
                 .getSingleResult();
     }
+
+    @Transactional
+    @Override
+    public void atualizarQuantidade(int id, int novaQuantidade) {
+        var query = """
+                UPDATE produto SET quantidade = :novaQuantidade WHERE id = :id;
+                """;
+        entityManager.createNativeQuery(query, Produto.class)
+                .setParameter("novaQuantidade", novaQuantidade)
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+
+    @Transactional
+    @Override
+    public void entrada(int id, int entrada) {
+        var queryQuantidadeAtual = """
+                SELECT quantidade FROM produto WHERE id = :id;
+                """;
+
+        Integer quantidadeAtual = (Integer) entityManager.createNativeQuery(queryQuantidadeAtual)
+                .setParameter("id", id)
+                .getSingleResult();
+
+        var query = """
+                UPDATE produto SET quantidade = :novaQuantidade WHERE id = :id;
+                """;
+
+        entityManager.createNativeQuery(query, Produto.class)
+                .setParameter("novaQuantidade", quantidadeAtual + entrada)
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+
+    @Transactional
+    @Override
+    public void saida(int id, int saida) {
+        var queryQuantidadeAtual = """
+                SELECT quantidade FROM produto WHERE id = :id;
+                """;
+
+        Integer quantidadeAtual = (Integer) entityManager.createNativeQuery(queryQuantidadeAtual)
+                .setParameter("id", id)
+                .getSingleResult();
+
+        var query = """
+                UPDATE produto SET quantidade = :novaQuantidade WHERE id = :id;
+                """;
+        entityManager.createNativeQuery(query, Produto.class)
+                .setParameter("novaQuantidade", quantidadeAtual - saida)
+                .setParameter("id", id)
+                .executeUpdate();
+    }
 }

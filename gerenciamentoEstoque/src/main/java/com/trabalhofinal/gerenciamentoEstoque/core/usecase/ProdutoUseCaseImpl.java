@@ -40,4 +40,19 @@ public class ProdutoUseCaseImpl implements ProdutoUseCase {
     public Produto listarUm(int id) {
         return produtoRepository.listarUm(id);
     }
+
+    @Override
+    public void atualizarQuantidade(int id, int novaQuantidade) {
+        produtoRepository.atualizarQuantidade(id, novaQuantidade);
+    }
+
+    @Override
+    public void entrada(int id, int entrada) {
+        produtoRepository.entrada(id, entrada);
+    }
+
+    @Override
+    public void saida(int id, int saida) {
+        produtoRepository.saida(id, saida);
+    }
 }

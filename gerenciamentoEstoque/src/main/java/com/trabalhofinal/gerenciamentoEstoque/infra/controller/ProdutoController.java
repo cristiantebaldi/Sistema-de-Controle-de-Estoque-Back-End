@@ -37,4 +37,19 @@ public class ProdutoController {
     public Produto listarUm(@PathVariable int id){
         return produtoUseCase.listarUm(id);
     }
+
+    @PutMapping("/produto/{id}/atualizar-quantidade/{novaQuantidade}")
+    public void atualizarQuantidade(@PathVariable int id, @PathVariable int novaQuantidade){
+        produtoUseCase.atualizarQuantidade(id, novaQuantidade);
+    }
+
+    @PutMapping("/produto/{id}/entrada/{entrada}")
+    public void entrada(@PathVariable int id, @PathVariable int entrada){
+        produtoUseCase.entrada(id, entrada);
+    }
+
+    @PutMapping("/produto/{id}/saida/{saida}")
+    public void saida(@PathVariable int id, @PathVariable int saida){
+        produtoUseCase.saida(id, saida);
+    }
 }
