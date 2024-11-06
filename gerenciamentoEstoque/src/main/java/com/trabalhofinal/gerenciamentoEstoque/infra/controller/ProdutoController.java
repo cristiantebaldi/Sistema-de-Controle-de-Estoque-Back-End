@@ -52,4 +52,9 @@ public class ProdutoController {
     public void saida(@PathVariable int id, @PathVariable int saida){
         produtoUseCase.saida(id, saida);
     }
+
+    @GetMapping("/produto/ver-em-falta")
+    public List<Produto> verEmFalta(){
+        return produtoUseCase.verEmFalta();
+    }
 }

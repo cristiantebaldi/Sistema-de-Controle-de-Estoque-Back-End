@@ -19,6 +19,9 @@ public class Produto {
     @Column(name = "preco")
     private float preco;
 
+    @Column(name = "quantidade_min")
+    private int quantidade_min;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +52,13 @@ public class Produto {
 
     public void setPreco(float preco) {
         this.preco = preco;
+    }
+
+    public int getQuantidade_min() {
+        return quantidade_min;
+    }
+
+    public void setQuantidade_min(int quantidade_min) {
+        this.quantidade_min = quantidade_min;
     }
 }

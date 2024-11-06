@@ -20,4 +20,6 @@ public interface ProdutoRepository {
     public void entrada(int id, int entrada);
 
     public void saida(int id, int saida);
+
+    public List<Produto> verEmFalta();
 }

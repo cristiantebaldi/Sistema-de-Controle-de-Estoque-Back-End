@@ -55,4 +55,9 @@ public class ProdutoUseCaseImpl implements ProdutoUseCase {
     public void saida(int id, int saida) {
         produtoRepository.saida(id, saida);
     }
+
+    @Override
+    public List<Produto> verEmFalta(){
+        return produtoRepository.verEmFalta();
+    }
 }

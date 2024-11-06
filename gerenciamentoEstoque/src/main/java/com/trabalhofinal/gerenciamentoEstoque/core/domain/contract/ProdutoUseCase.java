@@ -21,4 +21,6 @@ public interface ProdutoUseCase {
 
     public void saida(int id, int saida);
 
+    public List<Produto> verEmFalta();
+
 }

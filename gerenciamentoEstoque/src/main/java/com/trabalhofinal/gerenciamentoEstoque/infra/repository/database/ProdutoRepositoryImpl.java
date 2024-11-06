@@ -29,14 +29,15 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
     @Override
     public void insert(Produto produto) {
         var query = """
-                INSERT INTO produto (nome, quantidade, preco)
-                VALUES (:nome, :quantidade, :preco)
+                INSERT INTO produto (nome, quantidade, preco, quantidade_min)
+                VALUES (:nome, :quantidade, :preco, :quantidade_min)
                 """;
 
         entityManager.createNativeQuery(query, Produto.class)
                 .setParameter("nome", produto.getNome())
                 .setParameter("quantidade", produto.getQuantidade())
                 .setParameter("preco", produto.getPreco())
+                .setParameter("quantidade_min", produto.getQuantidade_min())
                 .executeUpdate();
     }
 
@@ -45,7 +46,7 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
     public void update(int id, Produto produto) {
         var query = """
                 UPDATE produto
-                SET nome = :nome, quantidade = :quantidade, preco = :preco
+                SET nome = :nome, quantidade = :quantidade, preco = :preco, quantidade_min = :quantidade_min
                 WHERE id = :id;
                 """;
 
@@ -54,6 +55,7 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
                 .setParameter("quantidade", produto.getQuantidade())
                 .setParameter("preco", produto.getPreco())
                 .setParameter("id", id)
+                .setParameter("quantidade_min", produto.getQuantidade_min())
                 .executeUpdate();
     }
 
@@ -95,7 +97,7 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
 
     @Transactional
     @Override
-    public void entrada(int id, int entrada) {
+    public void entrada(int id, int entrada){
         var queryQuantidadeAtual = """
                 SELECT quantidade FROM produto WHERE id = :id;
                 """;
@@ -133,4 +135,17 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
                 .setParameter("id", id)
                 .executeUpdate();
     }
+
+    @Transactional
+    @Override
+    public List<Produto> verEmFalta() {
+        var query = """
+                SELECT * FROM produto WHERE quantidade < quantidade_min;
+                """;
+
+        return entityManager.createNativeQuery(query, Produto.class)
+                .getResultList();
+    }
+
+
 }

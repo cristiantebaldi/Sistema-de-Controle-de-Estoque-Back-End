@@ -23,10 +23,9 @@ public class VendaProdutoUseCaseImpl implements VendaProdutoUseCase {
 
     @Override
     public void insert(VendaProduto vendaProduto) {
+        var produto = produtoRepository.listarUm(vendaProduto.getId_produto());
 
-        if(produtoRepository.listarUm(vendaProduto.getId_produto()) != null){
-            var produto = produtoRepository.listarUm(vendaProduto.getId_produto());
-
+        if(vendaProduto.getQuantidade() < produto.getQuantidade()){
             if (vendaProduto.getQuantidade() > 0 && vendaProduto.getQuantidade() <= produto.getQuantidade()) {
                 vendaProdutoRepository.insert(vendaProduto);
                 vendaProdutoRepository.removerQuantidade(vendaProduto);
@@ -34,7 +33,7 @@ public class VendaProdutoUseCaseImpl implements VendaProdutoUseCase {
                 System.out.println("Quantidade inválida");
             }
         }else{
-            System.out.println("Produto ou venda inválido");
+            System.out.println("Não há quantidade em estoque");
         }
 
 
