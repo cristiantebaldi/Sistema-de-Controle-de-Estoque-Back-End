@@ -2,12 +2,14 @@ package com.trabalhofinal.gerenciamentoEstoque.infra.repository.database;
 
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.VendaRepository;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
+import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Relatorio;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Venda;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -76,7 +78,21 @@ public class VendaRepositoryImpl implements VendaRepository {
     }
 
     @Override
-    public List<Venda> relatorio() {
-        return null;
+    public List<Relatorio> relatorioVendas(Date data_inicio, Date data_final) {
+        var query = """
+                SELECT p.nome AS produto, SUM (vp.quantidade) * p.preco AS total_arrecadado, SUM (vp.quantidade) AS quantidade_vendida, p.quantidade AS total_estoque FROM produto p\s
+                INNER JOIN venda_produto vp ON vp.id_produto = p.id
+                INNER JOIN venda v ON v.id = vp.id_venda
+                WHERE v.data_compra BETWEEN :data_inicio AND :data_final
+                GROUP BY p.id
+                ORDER BY quantidade_vendida DESC;
+                """;
+
+        List<Relatorio> relatorio = (List<Relatorio>) entityManager.createNativeQuery(query, Relatorio.class)
+                .setParameter("data_inicio", data_inicio)
+                .setParameter("data_final", data_final)
+                .getResultList();
+
+        return relatorio;
     }
 }

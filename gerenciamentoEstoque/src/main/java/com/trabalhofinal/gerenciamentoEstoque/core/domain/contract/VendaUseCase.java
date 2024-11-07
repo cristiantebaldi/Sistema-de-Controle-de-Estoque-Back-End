@@ -1,8 +1,10 @@
 package com.trabalhofinal.gerenciamentoEstoque.core.domain.contract;
 
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
+import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Relatorio;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Venda;
 
+import java.util.Date;
 import java.util.List;
 
 public interface VendaUseCase {
@@ -16,5 +18,5 @@ public interface VendaUseCase {
 
     public Venda listarUm(int id);
 
-    public List<Venda> relatorio();
+    public List<Relatorio> relatorioVendas(Date data_inicio, Date data_final);
 }
