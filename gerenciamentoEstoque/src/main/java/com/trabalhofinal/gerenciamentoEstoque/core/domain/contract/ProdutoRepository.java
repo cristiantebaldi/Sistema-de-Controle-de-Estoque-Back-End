@@ -22,4 +22,6 @@ public interface ProdutoRepository {
     public void saida(int id, int saida);
 
     public List<Produto> verEmFalta();
+
+    public List<Produto> verNome(Produto produto);
 }

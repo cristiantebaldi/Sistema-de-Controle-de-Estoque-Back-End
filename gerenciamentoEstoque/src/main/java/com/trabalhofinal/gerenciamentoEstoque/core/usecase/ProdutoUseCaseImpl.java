@@ -15,7 +15,6 @@ public class ProdutoUseCaseImpl implements ProdutoUseCase {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-
     @Override
     public List<Produto> fetch() {
         return produtoRepository.fetch();
@@ -23,7 +22,14 @@ public class ProdutoUseCaseImpl implements ProdutoUseCase {
 
     @Override
     public void insert(Produto produto) {
-        produtoRepository.insert(produto);
+        List<Produto> produtosNomeIgual = produtoRepository.verNome(produto);
+
+        if(produtosNomeIgual.toArray().length > 0){
+            System.out.println("Produto já existe");
+        }else{
+            produto.converterParaCentavos();
+            produtoRepository.insert(produto);
+        }
     }
 
     @Override
@@ -60,4 +66,11 @@ public class ProdutoUseCaseImpl implements ProdutoUseCase {
     public List<Produto> verEmFalta(){
         return produtoRepository.verEmFalta();
     }
+
+    @Override
+    public List<Produto> verNome(Produto produto) {
+        return produtoRepository.verNome(produto);
+    }
+
+
 }

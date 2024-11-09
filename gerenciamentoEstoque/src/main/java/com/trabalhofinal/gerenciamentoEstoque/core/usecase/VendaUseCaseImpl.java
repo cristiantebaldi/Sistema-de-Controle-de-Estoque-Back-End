@@ -4,6 +4,7 @@ import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.VendaReposito
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.VendaUseCase;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Relatorio;
+import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.RelatorioPDia;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Venda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,11 @@ public class VendaUseCaseImpl implements VendaUseCase {
     @Override
     public List<Relatorio> relatorioVendas(Date data_inicio, Date data_final) {
         return vendaRepository.relatorioVendas(data_inicio, data_final);
+    }
+
+    @Override
+    public List<RelatorioPDia> relatorioPorDia(Date data_busca) {
+        return vendaRepository.relatorioPorDia(data_busca);
     }
 
 }

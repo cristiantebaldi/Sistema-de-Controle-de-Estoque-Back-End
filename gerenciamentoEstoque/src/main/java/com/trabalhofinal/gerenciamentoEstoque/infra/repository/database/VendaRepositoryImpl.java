@@ -3,6 +3,7 @@ package com.trabalhofinal.gerenciamentoEstoque.infra.repository.database;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.VendaRepository;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Relatorio;
+import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.RelatorioPDia;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Venda;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -94,5 +95,21 @@ public class VendaRepositoryImpl implements VendaRepository {
                 .getResultList();
 
         return relatorio;
+    }
+
+    @Override
+    public List<RelatorioPDia> relatorioPorDia(Date data_busca) {
+        var query = """
+                SELECT v.id AS id_venda, p.nome AS produto, v.data_compra AS data_venda, SUM (vp.quantidade) * p.preco AS total_arrecadado, SUM (vp.quantidade) AS quantidade_vendida, p.quantidade AS total_estoque FROM produto p\s
+                INNER JOIN venda_produto vp ON vp.id_produto = p.id
+                INNER JOIN venda v ON v.id = vp.id_venda
+                WHERE v.data_compra >= :data
+                GROUP BY p.id, v.data_compra, v.id
+                ORDER BY quantidade_vendida DESC;
+                """;
+
+        return entityManager.createNativeQuery(query, RelatorioPDia.class)
+                .setParameter("data", data_busca)
+                .getResultList();
     }
 }

@@ -2,6 +2,7 @@ package com.trabalhofinal.gerenciamentoEstoque.core.domain.contract;
 
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Relatorio;
+import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.RelatorioPDia;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Venda;
 
 import java.util.Date;
@@ -19,4 +20,6 @@ public interface VendaRepository {
     public Venda listarUm(int id);
 
     public List<Relatorio> relatorioVendas(Date data_inicio, Date data_final);
+
+    public List<RelatorioPDia> relatorioPorDia(Date data_busca);
 }

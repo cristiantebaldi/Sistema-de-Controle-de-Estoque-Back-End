@@ -61,4 +61,8 @@ public class Produto {
     public void setQuantidade_min(int quantidade_min) {
         this.quantidade_min = quantidade_min;
     }
+
+    public void converterParaCentavos(){
+        this.preco = getPreco() * 100;
+    }
 }

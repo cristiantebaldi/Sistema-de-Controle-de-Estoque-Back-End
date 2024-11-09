@@ -23,4 +23,6 @@ public interface ProdutoUseCase {
 
     public List<Produto> verEmFalta();
 
+    public List<Produto> verNome(Produto produto);
+
 }

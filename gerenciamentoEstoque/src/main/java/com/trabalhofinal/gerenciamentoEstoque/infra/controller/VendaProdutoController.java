@@ -20,7 +20,7 @@ public class VendaProdutoController {
 
     @PostMapping("/venda_produto")
     public void insert(@RequestBody VendaProduto vendaProduto){
-        vendaProdutoUseCase.insert(vendaProduto);
+        vendaProdutoUseCase.insert(vendaProduto);   
     }
 
     @PutMapping("/venda_produto/{id}")

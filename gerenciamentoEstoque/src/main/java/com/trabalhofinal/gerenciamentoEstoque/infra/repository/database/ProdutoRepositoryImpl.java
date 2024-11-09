@@ -147,5 +147,16 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
                 .getResultList();
     }
 
+    @Override
+    public List<Produto> verNome(Produto produto) {
+        var query = """
+                SELECT * FROM produto WHERE nome = :nome;
+                """;
+
+        return entityManager.createNativeQuery(query, Produto.class)
+                .setParameter("nome", produto.getNome())
+                .getResultList();
+    }
+
 
 }

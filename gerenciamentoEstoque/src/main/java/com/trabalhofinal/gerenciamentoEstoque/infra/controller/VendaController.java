@@ -2,6 +2,7 @@ package com.trabalhofinal.gerenciamentoEstoque.infra.controller;
 
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.VendaUseCase;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Relatorio;
+import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.RelatorioPDia;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Venda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -46,6 +47,12 @@ public class VendaController {
              @RequestParam("data_final") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date data_final){
 
         return vendaUseCase.relatorioVendas(data_inicio, data_final);
+    }
+
+    @GetMapping("/venda/relatorio-por-dia")
+    public List<RelatorioPDia> relatorioPorDia
+            (@RequestParam("data_busca") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date data_busca){
+        return vendaUseCase.relatorioPorDia(data_busca);
     }
 
 }
