@@ -19,6 +19,7 @@ API para gerenciar controle de estoque, construída com Java, Spring Boot e Post
 
     # Post
     - ("/produto") - Adicionar novo produto ao estoque (Nome, quantidade, preço, quantidade_min)
+        Para inserir, não será permitido nomes iguais
     
     # Put
     - ("/produto/{id}") - Atualizar alguma informação de um produto em específico
@@ -54,6 +55,7 @@ API para gerenciar controle de estoque, construída com Java, Spring Boot e Post
 
     # Post 
     - ("/venda_produto") - Adicona uma venda_produto (id_venda, id_produto, quantidade)
+        Não permitido quantidades menores que 0, ou quantidades superiores ao estoque
 
     # Put
     - ("/venda_produto/{id}") - Altera uma venda_produto específica
