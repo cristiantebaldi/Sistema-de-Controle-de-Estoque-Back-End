@@ -1,11 +1,14 @@
 package com.trabalhofinal.gerenciamentoEstoque.core.domain.contract;
 
+import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Balanco;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
+import com.trabalhofinal.gerenciamentoEstoque.core.dto.ProdutoOutput;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ProdutoUseCase {
-    public List<Produto> fetch();
+    public List<ProdutoOutput> fetch();
 
     public void insert(Produto produto);
 
@@ -24,5 +27,7 @@ public interface ProdutoUseCase {
     public List<Produto> verEmFalta();
 
     public List<Produto> verNome(Produto produto);
+
+    public List<Balanco> balanco(Date data);
 
 }

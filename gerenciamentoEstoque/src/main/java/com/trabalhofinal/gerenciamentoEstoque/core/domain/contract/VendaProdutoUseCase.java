@@ -19,4 +19,6 @@ public interface VendaProdutoUseCase {
     public List<VendaProduto> fetch();
 
     public VendaProduto listarUm(int id);
+
+    public List<Produto> verId(VendaProduto vendaProduto);
 }

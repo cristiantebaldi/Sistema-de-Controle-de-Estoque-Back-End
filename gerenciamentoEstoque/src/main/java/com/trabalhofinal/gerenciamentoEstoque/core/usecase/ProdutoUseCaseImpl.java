@@ -2,10 +2,13 @@ package com.trabalhofinal.gerenciamentoEstoque.core.usecase;
 
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.ProdutoRepository;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.ProdutoUseCase;
+import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Balanco;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
+import com.trabalhofinal.gerenciamentoEstoque.core.dto.ProdutoOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -16,8 +19,23 @@ public class ProdutoUseCaseImpl implements ProdutoUseCase {
     private ProdutoRepository produtoRepository;
 
     @Override
-    public List<Produto> fetch() {
-        return produtoRepository.fetch();
+    public List<ProdutoOutput> fetch() {
+        List<ProdutoOutput> products = produtoRepository.fetch();
+
+        for(int i = 0; i < products.toArray().length; i++){
+            var product = new ProdutoOutput(
+                    products.get(i).id(),
+                    products.get(i).nome(),
+                    products.get(i).quantidade(),
+                    products.get(i).quantidade_minima(),
+                    products.get(i).preco() / 100,
+                    products.get(i).valor_estoque() / 100
+
+            );
+            products.set(i, product);
+        }
+
+        return products;
     }
 
     @Override
@@ -34,6 +52,7 @@ public class ProdutoUseCaseImpl implements ProdutoUseCase {
 
     @Override
     public void update(int id, Produto produto) {
+        produto.converterParaCentavos();
         produtoRepository.update(id, produto);
     }
 
@@ -70,6 +89,11 @@ public class ProdutoUseCaseImpl implements ProdutoUseCase {
     @Override
     public List<Produto> verNome(Produto produto) {
         return produtoRepository.verNome(produto);
+    }
+
+    @Override
+    public List<Balanco> balanco(Date data) {
+        return produtoRepository.balanco(data);
     }
 
 

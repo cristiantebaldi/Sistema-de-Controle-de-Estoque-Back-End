@@ -4,6 +4,7 @@ import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.VendaProdutoR
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Venda;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.VendaProduto;
+import com.trabalhofinal.gerenciamentoEstoque.core.dto.VendaProdutoOutput;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -104,11 +105,12 @@ public class VendaProdutoRepositoryImpl implements VendaProdutoRepository {
     public List<VendaProduto> fetch() {
 
         var query = """
-                SELECT * FROM venda_produto;
+                SELECT vp.id, vp.id_venda, p.nome AS nome_produto FROM venda_produto vp
+                INNER JOIN produto p ON p.id = vp.id_produto;
                 """;
 
         List<VendaProduto> listar =
-                entityManager.createNativeQuery(query, VendaProduto.class).getResultList();
+                entityManager.createNativeQuery(query, VendaProdutoOutput.class).getResultList();
         return listar;
     }
 
@@ -121,5 +123,16 @@ public class VendaProdutoRepositoryImpl implements VendaProdutoRepository {
         return (VendaProduto) entityManager.createNativeQuery(query,VendaProduto.class)
                 .setParameter("id",id)
                 .getSingleResult();
+    }
+
+    @Override
+    public List<Produto> verId(VendaProduto vendaProduto) throws Exception {
+        var query = """
+                SELECT * FROM produto WHERE id = :id;
+                """;
+
+        return entityManager.createNativeQuery(query, Produto.class)
+                .setParameter("id", vendaProduto.getId_produto())
+                .getResultList();
     }
 }

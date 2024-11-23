@@ -21,6 +21,6 @@ public interface VendaProdutoRepository {
 
     public VendaProduto listarUm(int id);
 
-
+    public List<Produto> verId(VendaProduto vendaProduto) throws Exception;
 
 }

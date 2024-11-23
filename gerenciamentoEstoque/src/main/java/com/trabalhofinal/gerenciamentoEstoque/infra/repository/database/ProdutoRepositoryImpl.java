@@ -1,12 +1,15 @@
 package com.trabalhofinal.gerenciamentoEstoque.infra.repository.database;
 
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.ProdutoRepository;
+import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Balanco;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
+import com.trabalhofinal.gerenciamentoEstoque.core.dto.ProdutoOutput;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -17,12 +20,18 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
 
 
     @Override
-    public List<Produto> fetch() {
+    public List<ProdutoOutput> fetch() {
         var query = """
-                SELECT * FROM produto;
+                SELECT p.id as id,
+                p.nome as nome,
+                p.quantidade as quantidade,
+                p.quantidade_min as quantidade_minima,
+                p.preco as preco,
+                quantidade * preco as valor_estoque
+                FROM produto p;
                 """;
 
-        return entityManager.createNativeQuery(query, Produto.class).getResultList();
+        return entityManager.createNativeQuery(query, ProdutoOutput.class).getResultList();
     }
 
     @Transactional
@@ -156,6 +165,15 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
         return entityManager.createNativeQuery(query, Produto.class)
                 .setParameter("nome", produto.getNome())
                 .getResultList();
+    }
+
+    @Override
+    public List<Balanco> balanco(Date data) {
+        var query = """
+                SELECT p.nome, 
+                """;
+
+        return List.of();
     }
 
 

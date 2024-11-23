@@ -65,4 +65,8 @@ public class Produto {
     public void converterParaCentavos(){
         this.preco = getPreco() * 100;
     }
+
+    public void converterParaReais(){
+        this.preco = getPreco() / 100;
+    }
 }

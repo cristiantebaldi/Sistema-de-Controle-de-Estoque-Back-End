@@ -2,6 +2,7 @@ package com.trabalhofinal.gerenciamentoEstoque.infra.controller;
 
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.contract.ProdutoUseCase;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
+import com.trabalhofinal.gerenciamentoEstoque.core.dto.ProdutoOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ public class ProdutoController {
     private ProdutoUseCase produtoUseCase;
 
     @GetMapping("/produto")
-    public List<Produto> fetch(){
+    public List<ProdutoOutput> fetch(){
         return produtoUseCase.fetch();
 }
 

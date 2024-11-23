@@ -23,17 +23,35 @@ public class VendaProdutoUseCaseImpl implements VendaProdutoUseCase {
 
     @Override
     public void insert(VendaProduto vendaProduto) {
-        var produto = produtoRepository.listarUm(vendaProduto.getId_produto());
 
-        if(vendaProduto.getQuantidade() < produto.getQuantidade()){
-            if (vendaProduto.getQuantidade() > 0 && vendaProduto.getQuantidade() <= produto.getQuantidade()) {
-                vendaProdutoRepository.insert(vendaProduto);
-                vendaProdutoRepository.removerQuantidade(vendaProduto);
-            } else {
-                System.out.println("Quantidade inválida");
+
+
+
+        try{
+            List<Produto> idIgual = vendaProdutoRepository.verId(vendaProduto);
+
+            if(idIgual.isEmpty()) {
+                System.out.println("Produto indísponivel");
+                return;
             }
-        }else{
-            System.out.println("Não há quantidade em estoque");
+
+            var produto = produtoRepository.listarUm(vendaProduto.getId_produto());
+            if(vendaProduto.getQuantidade() < produto.getQuantidade()){
+                if (vendaProduto.getQuantidade() > 0 && vendaProduto.getQuantidade() <= produto.getQuantidade()) {
+                    vendaProdutoRepository.insert(vendaProduto);
+                    vendaProdutoRepository.removerQuantidade(vendaProduto);
+                } else {
+                    System.out.println("Quantidade inválida");
+                }
+            }else{
+                System.out.println("Não há quantidade em estoque");
+            }
+
+        }catch (NoResultException e){
+            System.out.println("Produto não existe");
+        } catch (Exception e) {
+            System.out.println("Produto não existe");
+            throw new RuntimeException(e);
         }
 
 
@@ -75,5 +93,14 @@ public class VendaProdutoUseCaseImpl implements VendaProdutoUseCase {
     @Override
     public VendaProduto listarUm(int id) {
         return vendaProdutoRepository.listarUm(id);
+    }
+
+    @Override
+    public List<Produto> verId(VendaProduto vendaProduto) {
+        try {
+            return vendaProdutoRepository.verId(vendaProduto);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
