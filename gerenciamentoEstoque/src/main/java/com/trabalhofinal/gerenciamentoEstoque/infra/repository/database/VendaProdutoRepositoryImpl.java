@@ -104,8 +104,11 @@ public class VendaProdutoRepositoryImpl implements VendaProdutoRepository {
     public List<VendaProduto> fetch() {
 
         var query = """
-                SELECT vp.id, vp.id_venda, p.nome AS nome_produto FROM venda_produto vp
-                INNER JOIN produto p ON p.id = vp.id_produto;
+                SELECT vp.id, vp.id_venda, p.nome AS nome_produto, v.data_compra, vp.quantidade AS quantidade_vendida, SUM (vp.quantidade) * p.preco AS total_arrecadado FROM venda_produto vp
+                INNER JOIN produto p ON p.id = vp.id_produto
+                INNER JOIN venda v ON v.id = vp.id_venda
+                GROUP BY p.id, v.data_compra, v.id, vp.id
+                ORDER BY quantidade_vendida DESC;
                 """;
 
         List<VendaProduto> listar =
