@@ -25,7 +25,7 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
                 SELECT p.id as id,
                 p.nome as nome,
                 p.quantidade as quantidade,
-                p.quantidade_min as quantidade_minima,
+                p.quantidade_min as quantidade_min,
                 p.preco as preco,
                 quantidade * preco as valor_estoque
                 FROM produto p;

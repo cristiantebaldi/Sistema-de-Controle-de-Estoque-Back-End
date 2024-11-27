@@ -25,7 +25,6 @@ public class VendaProdutoRepositoryImpl implements VendaProdutoRepository {
                 INSERT INTO venda_produto (id_venda, id_produto, quantidade)
                 VALUES(:id_venda, :id_produto, :quantidade);
                 """;
-
         entityManager.createNativeQuery(query, VendaProduto.class)
                 .setParameter("id_venda", vendaProduto.getId_venda())
                 .setParameter("id_produto", vendaProduto.getId_produto())

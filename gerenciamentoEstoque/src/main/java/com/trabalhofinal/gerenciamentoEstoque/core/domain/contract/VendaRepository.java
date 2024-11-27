@@ -1,6 +1,5 @@
 package com.trabalhofinal.gerenciamentoEstoque.core.domain.contract;
 
-import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Relatorio;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.RelatorioPDia;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Venda;

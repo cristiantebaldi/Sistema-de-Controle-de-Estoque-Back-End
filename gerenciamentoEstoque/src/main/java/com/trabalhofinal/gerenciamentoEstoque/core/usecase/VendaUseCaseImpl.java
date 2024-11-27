@@ -7,6 +7,7 @@ import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Relatorio;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.RelatorioPDia;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Venda;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

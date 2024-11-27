@@ -4,7 +4,9 @@ import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Produto;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Relatorio;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.RelatorioPDia;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Venda;
+import org.springframework.http.ResponseEntity;
 
+import java.awt.geom.RectangularShape;
 import java.util.Date;
 import java.util.List;
 

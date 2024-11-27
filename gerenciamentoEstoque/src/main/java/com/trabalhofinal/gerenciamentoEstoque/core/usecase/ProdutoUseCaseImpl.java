@@ -27,7 +27,7 @@ public class ProdutoUseCaseImpl implements ProdutoUseCase {
                     products.get(i).id(),
                     products.get(i).nome(),
                     products.get(i).quantidade(),
-                    products.get(i).quantidade_minima(),
+                    products.get(i).quantidade_min(),
                     products.get(i).preco() / 100,
                     products.get(i).valor_estoque() / 100
 

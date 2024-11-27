@@ -6,12 +6,14 @@ import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.RelatorioPDia;
 import com.trabalhofinal.gerenciamentoEstoque.core.domain.entity.Venda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class VendaController {
     @Autowired
     private VendaUseCase vendaUseCase;
@@ -22,8 +24,7 @@ public class VendaController {
     }
 
     @PostMapping("/venda")
-    public void insert(@RequestBody Venda venda){
-        vendaUseCase.insert(venda);
+    public void insert(@RequestBody Venda venda){ vendaUseCase.insert(venda);
     }
 
     @PutMapping("/venda/{id}")
